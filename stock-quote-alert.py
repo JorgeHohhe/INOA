@@ -1,4 +1,5 @@
 import sys
+import yfinance as yf
 
 def validate_parameters(args):
     """
@@ -9,17 +10,17 @@ def validate_parameters(args):
 
     Returns:
         param1, param2, param3 (tuple): A tuple containing the validated parameters
-        (asset code, bottom price, upper price) if they are valid
+        (asset symbol, bottom price, upper price) if they are valid
 
         None: If the parameters are invalid or missing
     """
     # Check if there are exactly 4 command-line arguments (including the script name)
     if len(args) != 4:
-        print("Usage: python stock-quote-alert.py <asset-code> <bottom-price> <upper-price>")
+        print("Usage: python stock-quote-alert.py <asset-symbol> <bottom-price> <upper-price>")
         return None
 
     try:
-        param1 = args[1]         # asset code
+        param1 = args[1]         # asset symbol
         param2 = float(args[2])  # price to sell
         param3 = float(args[3])  # price to buy
     except ValueError:
@@ -39,17 +40,28 @@ def main():
     Returns:
         None
     """
-    # Validate the command-line parameters and store them in 'params'
-    para
     # Validate the command-line parameters
     params = validate_parameters(sys.argv)
     if params is None:
         return
 
     # Unpack the validated parameters into individual variables
-    asset, upper_tunnel, bottom_tunnel = params
+    asset_symbol, upper_tunnel, bottom_tunnel = params
 
-    print(f"Parameters: {asset} | {upper_tunnel} | {bottom_tunnel}")
+    # Get asset price data from Yahoo Finance API
+    ticker = yf.Ticker(asset_symbol)
+    real_time_data = ticker.history(period="1d", interval="60m")
+    real_time_price = real_time_data["Close"].iloc[-1]
+
+    # Price value comparison
+    if (real_time_price < bottom_tunnel):
+        print("Sent email to BUY!")
+
+    if (real_time_price > upper_tunnel):
+        print("Sent email to SELL!")
+
+    # DEBUG
+    print(f"\n{asset_symbol} | {upper_tunnel} | {bottom_tunnel} | {real_time_price}")
 
 if __name__ == "__main__":
     main()
