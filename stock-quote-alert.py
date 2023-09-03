@@ -50,7 +50,11 @@ def main():
 
     # Get asset price data from Yahoo Finance API
     ticker = yf.Ticker(asset_symbol)
-    real_time_data = ticker.history(period="1d", interval="60m")
+    real_time_data = ticker.history(period="1d", interval="1m")
+    if len(real_time_data) == 0:
+        print("API used doesn't has data for the asset symbol inputed")
+        return
+
     real_time_price = real_time_data["Close"].iloc[-1]
 
     # Price value comparison
