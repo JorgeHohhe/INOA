@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configure Assets</title>
+</head>
+<body>
+    <h1>Configure Assets</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Configuration</button>
+    </form>
+    <h2>Configured Assets</h2>
+    <ul>
+        {% for config in configurations %}
+            <li>{{ config.asset_name }} - Upper Price: R$ {{ config.upper_tunnel }} | Bottom Price: R$ {{ config.bottom_tunnel }} | Frequency: {{ config.checking_frequency }} minutes</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
