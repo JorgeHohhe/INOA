@@ -36,7 +36,7 @@ def home(request):
         total_configurations += 1
 
         # Change minutes to seconds
-        interval_seconds = last_asset.checking_frequency * 1  # TODO: CHANGE TO 60
+        interval_seconds = last_asset.checking_frequency * 60
 
         # Create a separate thread to run the script
         script_thread = threading.Thread(target=run_script,
