@@ -10,6 +10,8 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 
+Acess http://localhost:8000/
+
 ## Future Works
 
 * Email alert sender
