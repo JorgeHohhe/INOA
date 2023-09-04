@@ -13,7 +13,6 @@ total_configurations = 0
 def run_script(asset_name, upper_tunnel, bottom_tunnel, interval_seconds):
     while True:
         # Call your script or function here
-        print('CALL: ', asset_name, upper_tunnel, bottom_tunnel, '| Interval: ', interval_seconds)
         subprocess.run(["python", "stock-quote-alert.py", asset_name, str(upper_tunnel), str(bottom_tunnel)])
         
         # Sleep for the specified interval

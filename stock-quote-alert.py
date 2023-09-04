@@ -52,20 +52,20 @@ def main():
     ticker = yf.Ticker(asset_symbol)
     real_time_data = ticker.history(period="1d", interval="1m")
     if len(real_time_data) == 0:
-        print("API used doesn't has data for the asset symbol inputed.")
+        print(f"API used doesn't has data for the asset symbol inputed {asset_symbol}.")
         return
 
     real_time_price = real_time_data["Close"].iloc[-1]
 
     # Price value comparison
     if (real_time_price < bottom_tunnel):
-        print("Sent email to BUY!")
+        print(f"Sent email to BUY {asset_symbol}!")
 
     if (real_time_price > upper_tunnel):
-        print("Sent email to SELL!")
+        print(f"Sent email to SELL {asset_symbol}!")
 
     # Debug Log
-    print(f"\nChecked: {asset_symbol} - {upper_tunnel} - {bottom_tunnel} | Price: {real_time_price}")
+    print(f"\nChecked: {asset_symbol} - {upper_tunnel} - {bottom_tunnel} | Price: {real_time_price}\n")
 
 if __name__ == "__main__":
     main()
